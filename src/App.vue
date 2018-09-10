@@ -1,17 +1,19 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="m-6">
+    <h1 class="mb-2 text-lg">Conway's Game of Life</h1>
+    <div>
+      <ConwayBoard />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ConwayBoard from '@/components/ConwayBoard.vue'
 
 export default {
-  name: 'app',
+  name: 'GameOfLife',
   components: {
-    HelloWorld
+    ConwayBoard
   }
 }
 </script>
@@ -19,12 +21,4 @@ export default {
 <style>
 @import 'assets/styles/tailwind.postcss';
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
