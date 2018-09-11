@@ -1,7 +1,7 @@
 <template>
   <div id="SingleCell">
     <div
-      class="w-2 h-2 bg-grey-light border border-collapse border-solid border-grey"
+      class="w-3 h-3 bg-grey-light border border-collapse border-solid border-grey"
       :class="{ alive: isCellAlive }"
     ></div>
   </div>
