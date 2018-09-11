@@ -16,7 +16,7 @@
       type="button"
       class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
       @click="nextConwayCycle()"
-    >Next Cycle</button>
+    >Next cycle</button>
     <button
       type="button"
       class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
@@ -27,6 +27,11 @@
       class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
       @click="toggleSpeed()"
     >{{ speeds[speedId].display }}</button>
+    <button
+      type="button"
+      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      @click="resetCells()"
+    >Reset board</button>
   </div>
 </template>
 
@@ -61,13 +66,7 @@ export default {
   },
 
   created () {
-    for (var x = 0; x < this.size; x++) {
-      this.boardStatus[x] = []
-      for (var y = 0; y < this.size; y++) {
-        this.boardStatus[x][y] = Math.round(Math.random())
-      }
-    }
-    this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
+    this.resetCells()
   },
 
   computed: {
@@ -76,13 +75,23 @@ export default {
     },
 
     btnText: function () {
-      return this.interval !== undefined ? 'Pause' : 'Start'
+      return this.interval !== undefined ? 'Stop' : 'Start'
     }
   },
 
   methods: {
     alive: function (x, y) {
       return this.boardStatus[x][y]
+    },
+
+    resetCells: function () {
+      for (var x = 0; x < this.size; x++) {
+        this.boardStatus[x] = []
+        for (var y = 0; y < this.size; y++) {
+          this.boardStatus[x][y] = Math.round(Math.random())
+        }
+      }
+      this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
     },
 
     toggleRun: function () {
