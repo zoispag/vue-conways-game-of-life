@@ -16,6 +16,6 @@ export default {
 
 <style scoped>
   .alive {
-    @apply bg-red;
+    @apply bg-red-light;
   }
 </style>

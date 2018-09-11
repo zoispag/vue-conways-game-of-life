@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="flex justfy-between">
-      <span class="mr-3">Cycles: {{ cycles }}</span>
-      <span class="mr-3">Cell count: {{ cellsCount }}</span>
-      <span class="mr-3">Cells alive: {{ cellsAlive }}</span>
+    <div class="flex justfy-between mb-1">
+      <span class="mr-3 font-bold">Conway's Game of Life</span>
+      <span class="mr-3 text-grey-dark text-sm">Cycles: {{ cycles }}</span>
+      <span class="mr-3 text-grey-dark text-sm">Cell count: {{ cellsCount }}</span>
+      <span class="mr-3 text-grey-dark text-sm">Cells alive: {{ cellsAlive }}</span>
     </div>
     <div id="ConwayBoard" class="flex">
       <div v-for="(row, x) in boardStatus" :key="x">
@@ -14,22 +15,22 @@
     </div>
     <button
       type="button"
-      class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
       @click="nextConwayCycle()"
     >Next cycle</button>
     <button
       type="button"
-      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      class="mt-2 ml-2 bg-green hover:bg-green-dark text-white py-2 px-4 text-sm rounded"
       @click="toggleRun()"
     >{{ btnText }}</button>
     <button
       type="button"
-      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      class="mt-2 ml-2 bg-grey hover:bg-grey-dark text-white py-2 px-4 text-sm rounded"
       @click="toggleSpeed()"
     >{{ speeds[speedId].display }}</button>
     <button
       type="button"
-      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      class="mt-2 ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
       @click="resetCells()"
     >Reset board</button>
   </div>
@@ -47,7 +48,8 @@ export default {
 
   data () {
     return {
-      size: 50,
+      width: 100,
+      height: 50,
       cycles: 0,
       cellsAlive: 0,
       boardStatus: [],
@@ -71,7 +73,7 @@ export default {
 
   computed: {
     cellsCount: function () {
-      return this.size * this.size
+      return this.width * this.height
     },
 
     btnText: function () {
@@ -85,9 +87,9 @@ export default {
     },
 
     resetCells: function () {
-      for (var x = 0; x < this.size; x++) {
+      for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []
-        for (var y = 0; y < this.size; y++) {
+        for (var y = 0; y < this.height; y++) {
           this.boardStatus[x][y] = Math.round(Math.random())
         }
       }
@@ -122,9 +124,9 @@ export default {
     nextConwayCycle: function () {
       this.cycles++
       let grid = []
-      for (var x = 0; x < this.size; x++) {
+      for (var x = 0; x < this.width; x++) {
         grid[x] = []
-        for (var y = 0; y < this.size; y++) {
+        for (var y = 0; y < this.height; y++) {
           let isAlive = this.boardStatus[x][y]
           let aliveNeighbours = this.getAliveNeighbours(x, y)
           let result = 0
@@ -151,8 +153,8 @@ export default {
       }
 
       // set new boardStatus content
-      for (let x = 0; x < this.size; x++) {
-        for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.width; x++) {
+        for (let y = 0; y < this.height; y++) {
           this.boardStatus[x][y] = grid[x][y]
         }
       }
@@ -161,7 +163,7 @@ export default {
 
     getAliveNeighbours: function (x, y) {
       let neighbours = 0
-      if (x <= this.size && y <= this.size) {
+      if (x <= this.width && y <= this.height) {
         for (let offsetX = -1; offsetX < 2; offsetX++) {
           for (let offsetY = -1; offsetY < 2; offsetY++) {
             let newX = x + offsetX
@@ -169,8 +171,8 @@ export default {
             // check if offset is: on current cell, out of bounds and if isAlive
             if (
               (offsetX !== 0 || offsetY !== 0) &&
-              newX >= 0 && newX < this.size &&
-              newY >= 0 && newY < this.size &&
+              newX >= 0 && newX < this.width &&
+              newY >= 0 && newY < this.height &&
               this.boardStatus[x + offsetX][y + offsetY]
             ) {
               neighbours++

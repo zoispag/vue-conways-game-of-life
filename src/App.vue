@@ -1,9 +1,6 @@
 <template>
   <div id="app" class="m-6">
-    <h1 class="mb-2 text-lg">Conway's Game of Life</h1>
-    <div>
-      <ConwayBoard />
-    </div>
+    <ConwayBoard />
   </div>
 </template>
 
