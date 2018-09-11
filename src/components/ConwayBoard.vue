@@ -9,7 +9,12 @@
     <div id="ConwayBoard" class="flex">
       <div v-for="(row, x) in boardStatus" :key="x">
         <div v-for="(column, y) in row" :key="y">
-          <SingleCell :key="`${x}:${y}}`" :isCellAlive="alive(x, y)"></SingleCell>
+          <SingleCell
+            :key="`${x}:${y}}`"
+            :x="x" :y="y"
+            :isCellAlive="alive(x, y)"
+            @handleClick="toggleSingleCell($event)"
+          ></SingleCell>
         </div>
       </div>
     </div>
@@ -48,7 +53,7 @@ export default {
 
   data () {
     return {
-      width: 100,
+      width: 50,
       height: 50,
       cycles: 0,
       cellsAlive: 0,
@@ -181,6 +186,11 @@ export default {
         }
       }
       return neighbours
+    },
+
+    toggleSingleCell: function ([x, y]) {
+      this.boardStatus[x][y] = !this.boardStatus[x][y]
+      this.cellsAlive = this.boardStatus[x][y] ? this.cellsAlive + 1 : this.cellsAlive - 1
     }
   }
 }
