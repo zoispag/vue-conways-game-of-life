@@ -20,8 +20,13 @@
     <button
       type="button"
       class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
-      @click="startCycle()"
+      @click="toggleRun()"
     >{{ btnText }}</button>
+    <button
+      type="button"
+      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      @click="toggleSpeed()"
+    >{{ speeds[speedId].display }}</button>
   </div>
 </template>
 
@@ -41,7 +46,17 @@ export default {
       cycles: 0,
       cellsAlive: 0,
       boardStatus: [],
-      interval: undefined
+      interval: undefined,
+      speedId: 0,
+      speeds: [
+        { display: 'x1', milisecs: 1000 },
+        { display: 'x2', milisecs: 500 },
+        { display: 'x4', milisecs: 250 },
+        { display: 'x8', milisecs: 125 },
+        { display: 'x10', milisecs: 100 },
+        { display: 'x20', milisecs: 50 },
+        { display: 'x200', milisecs: 5 }
+      ]
     }
   },
 
@@ -70,12 +85,28 @@ export default {
       return this.boardStatus[x][y]
     },
 
-    startCycle: function () {
+    toggleRun: function () {
       if (this.interval === undefined) {
-        this.interval = setInterval(this.nextConwayCycle, 1000)
+        this.startCycle()
       } else {
-        clearInterval(this.interval)
-        this.interval = undefined
+        this.stopCycle()
+      }
+    },
+
+    startCycle: function () {
+      this.interval = setInterval(this.nextConwayCycle, this.speeds[this.speedId].milisecs)
+    },
+
+    stopCycle: function () {
+      clearInterval(this.interval)
+      this.interval = undefined
+    },
+
+    toggleSpeed: function () {
+      this.speedId = this.speedId === this.speeds.length - 1 ? this.speedId = 0 : this.speedId + 1
+      if (this.interval !== undefined) {
+        this.stopCycle()
+        this.startCycle()
       }
     },
 
@@ -128,12 +159,10 @@ export default {
             let newY = y + offsetY
             // check if offset is: on current cell, out of bounds and if isAlive
             if (
-              (offsetX !== 0 || offsetY !== 0)
-              && newX >= 0
-              && newX < this.size
-              && newY >= 0
-              && newY < this.size
-              && this.boardStatus[x + offsetX][y + offsetY]
+              (offsetX !== 0 || offsetY !== 0) &&
+              newX >= 0 && newX < this.size &&
+              newY >= 0 && newY < this.size &&
+              this.boardStatus[x + offsetX][y + offsetY]
             ) {
               neighbours++
             }
