@@ -104,6 +104,7 @@ export default {
         }
       }
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
+      this.cycles = 0
     },
 
     clearBoard () {
@@ -114,6 +115,7 @@ export default {
         }
       }
       this.cellsAlive = 0
+      this.cycles = 0
     },
 
     toggleRun () {
