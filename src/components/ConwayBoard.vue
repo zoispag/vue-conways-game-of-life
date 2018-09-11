@@ -12,8 +12,16 @@
         </div>
       </div>
     </div>
-    <button type="button" class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
-      @click="nextConwayCycle()" >Next Cycle</button>
+    <button
+      type="button"
+      class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      @click="nextConwayCycle()"
+    >Next Cycle</button>
+    <button
+      type="button"
+      class="mt-2 ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded"
+      @click="startCycle()"
+    >{{ btnText }}</button>
   </div>
 </template>
 
@@ -32,7 +40,8 @@ export default {
       size: 50,
       cycles: 0,
       cellsAlive: 0,
-      boardStatus: []
+      boardStatus: [],
+      interval: undefined
     }
   },
 
@@ -49,12 +58,25 @@ export default {
   computed: {
     cellsCount: function () {
       return this.size * this.size
+    },
+
+    btnText: function () {
+      return this.interval !== undefined ? 'Pause' : 'Start'
     }
   },
 
   methods: {
     alive: function (x, y) {
       return this.boardStatus[x][y]
+    },
+
+    startCycle: function () {
+      if (this.interval === undefined) {
+        this.interval = setInterval(this.nextConwayCycle, 1000)
+      } else {
+        clearInterval(this.interval)
+        this.interval = undefined
+      }
     },
 
     nextConwayCycle: function () {
@@ -88,7 +110,7 @@ export default {
         }
       }
 
-      // set new gridList content
+      // set new boardStatus content
       for (let x = 0; x < this.size; x++) {
         for (let y = 0; y < this.size; y++) {
           this.boardStatus[x][y] = grid[x][y]
@@ -106,12 +128,12 @@ export default {
             let newY = y + offsetY
             // check if offset is: on current cell, out of bounds and if isAlive
             if (
-              (offsetX !== 0 || offsetY !== 0) &&
-              newX >= 0 &&
-              newX < this.size &&
-              newY >= 0 &&
-              newY < this.size &&
-              this.boardStatus[x + offsetX][y + offsetY]
+              (offsetX !== 0 || offsetY !== 0)
+              && newX >= 0
+              && newX < this.size
+              && newY >= 0
+              && newY < this.size
+              && this.boardStatus[x + offsetX][y + offsetY]
             ) {
               neighbours++
             }
