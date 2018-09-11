@@ -100,7 +100,7 @@ export default {
       for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []
         for (var y = 0; y < this.height; y++) {
-          this.boardStatus[x][y] = Math.floor(Math.random() * 4) ? 0 : 1;
+          this.boardStatus[x][y] = Math.floor(Math.random() * 4) ? 0 : 1
         }
       }
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
