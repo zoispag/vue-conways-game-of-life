@@ -38,6 +38,11 @@
       class="mt-2 ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
       @click="resetCells()"
     >Reset board</button>
+    <button
+      type="button"
+      class="mt-2 ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
+      @click="clearBoard()"
+    >Clear board</button>
   </div>
 </template>
 
@@ -53,8 +58,8 @@ export default {
 
   data () {
     return {
-      width: 50,
-      height: 50,
+      width: 80,
+      height: 30,
       cycles: 0,
       cellsAlive: 0,
       boardStatus: [],
@@ -77,31 +82,41 @@ export default {
   },
 
   computed: {
-    cellsCount: function () {
+    cellsCount () {
       return this.width * this.height
     },
 
-    btnText: function () {
+    btnText () {
       return this.interval !== undefined ? 'Stop' : 'Start'
     }
   },
 
   methods: {
-    alive: function (x, y) {
+    alive (x, y) {
       return this.boardStatus[x][y]
     },
 
-    resetCells: function () {
+    resetCells () {
       for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []
         for (var y = 0; y < this.height; y++) {
-          this.boardStatus[x][y] = Math.round(Math.random())
+          this.boardStatus[x][y] = Math.floor(Math.random() * 4) ? 0 : 1;
         }
       }
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
     },
 
-    toggleRun: function () {
+    clearBoard () {
+      for (var x = 0; x < this.width; x++) {
+        this.boardStatus[x] = []
+        for (var y = 0; y < this.height; y++) {
+          this.boardStatus[x][y] = 0
+        }
+      }
+      this.cellsAlive = 0
+    },
+
+    toggleRun () {
       if (this.interval === undefined) {
         this.startCycle()
       } else {
@@ -109,16 +124,16 @@ export default {
       }
     },
 
-    startCycle: function () {
+    startCycle () {
       this.interval = setInterval(this.nextConwayCycle, this.speeds[this.speedId].milisecs)
     },
 
-    stopCycle: function () {
+    stopCycle () {
       clearInterval(this.interval)
       this.interval = undefined
     },
 
-    toggleSpeed: function () {
+    toggleSpeed () {
       this.speedId = this.speedId === this.speeds.length - 1 ? this.speedId = 0 : this.speedId + 1
       if (this.interval !== undefined) {
         this.stopCycle()
@@ -126,7 +141,7 @@ export default {
       }
     },
 
-    nextConwayCycle: function () {
+    nextConwayCycle () {
       this.cycles++
       let grid = []
       for (var x = 0; x < this.width; x++) {
@@ -166,7 +181,7 @@ export default {
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
     },
 
-    getAliveNeighbours: function (x, y) {
+    getAliveNeighbours (x, y) {
       let neighbours = 0
       if (x <= this.width && y <= this.height) {
         for (let offsetX = -1; offsetX < 2; offsetX++) {
@@ -188,7 +203,7 @@ export default {
       return neighbours
     },
 
-    toggleSingleCell: function ([x, y]) {
+    toggleSingleCell ([x, y]) {
       this.boardStatus[x][y] = !this.boardStatus[x][y]
       this.cellsAlive = this.boardStatus[x][y] ? this.cellsAlive + 1 : this.cellsAlive - 1
     }
