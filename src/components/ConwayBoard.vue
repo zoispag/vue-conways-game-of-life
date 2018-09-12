@@ -5,7 +5,7 @@
         <span class="mr-3 font-bold">Conway's Game of Life</span>
       </div>
       <div class="flex">
-        <span class="mr-3 text-grey-dark text-sm">Cycles: {{ cycles }}</span>
+        <span class="mr-3 text-grey-dark text-sm">Ticks: {{ cycles }}</span>
         <span class="mr-3 text-grey-dark text-sm">Cell count: {{ cellsCount }}</span>
         <span class="mr-3 text-grey-dark text-sm">Cells alive: {{ cellsAlive }}</span>
       </div>
@@ -48,6 +48,7 @@
         class="mt-2 sm:ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
         @click="clearBoard()"
       >Clear board</button>
+      <InfoModal></InfoModal>
     </div>
 
     <div class="text-xs flex flex-col sm:flex-row w-full mt-2 sm:mt-3">
@@ -81,12 +82,14 @@
 
 <script>
 import SingleCell from '@/components/SingleCell.vue'
+import InfoModal from '@/components/InfoModal.vue'
 
 export default {
   name: 'ConwayBoard',
 
   components: {
-    SingleCell
+    SingleCell,
+    InfoModal
   },
 
   data () {
