@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div class="flex justfy-between mb-1">
-      <span class="mr-3 font-bold">Conway's Game of Life</span>
-      <span class="mr-3 text-grey-dark text-sm">Cycles: {{ cycles }}</span>
-      <span class="mr-3 text-grey-dark text-sm">Cell count: {{ cellsCount }}</span>
-      <span class="mr-3 text-grey-dark text-sm">Cells alive: {{ cellsAlive }}</span>
+    <div class="flex justfy-between flex-col sm:flex-row mb-1">
+      <div>
+        <span class="mr-3 font-bold">Conway's Game of Life</span>
+      </div>
+      <div class="flex">
+        <span class="mr-3 text-grey-dark text-sm">Cycles: {{ cycles }}</span>
+        <span class="mr-3 text-grey-dark text-sm">Cell count: {{ cellsCount }}</span>
+        <span class="mr-3 text-grey-dark text-sm">Cells alive: {{ cellsAlive }}</span>
+      </div>
     </div>
     <div id="ConwayBoard" class="flex">
       <div v-for="(row, x) in boardStatus" :key="x">
@@ -18,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="flex justfy-between flex-col sm:flex-row">
       <button
         type="button"
         class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
@@ -26,40 +30,50 @@
       >Next cycle</button>
       <button
         type="button"
-        class="mt-2 ml-2 bg-green hover:bg-green-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 sm:ml-2 bg-green hover:bg-green-dark text-white py-2 px-4 text-sm rounded"
         @click="toggleRun()"
       >{{ btnText }}</button>
       <button
         type="button"
-        class="mt-2 ml-2 bg-grey hover:bg-grey-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 sm:ml-2 bg-grey-dark hover:bg-grey-darker text-white py-2 px-4 text-sm rounded"
         @click="toggleSpeed()"
       >{{ speeds[speedId].display }}</button>
       <button
         type="button"
-        class="mt-2 ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 sm:ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
         @click="resetCells()"
       >Reset board</button>
       <button
         type="button"
-        class="mt-2 ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 sm:ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
         @click="clearBoard()"
       >Clear board</button>
     </div>
 
-    <div class="text-xs flex mt-1">
-      <div class="flex">
-        <span>Width</span>
-        <div class="mx-2">
+    <div class="text-xs flex flex-col sm:flex-row w-full mt-2 sm:mt-3">
+      <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded">
+        <span class="font-bold tracking-wide">Width</span>
+        <div class="mx-2 relative" style="bottom:0.1rem">
           <input type="range" min="10" max="100" step="10" v-model="width" @change="resetCells()" />
         </div>
         <span>{{ width }}</span>
+        <span
+          @click="resetWidth()"
+          class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
+          style="bottom:0.2rem"
+        >&#8634;</span>
       </div>
-      <div class="flex ml-8">
-        <span>Height</span>
-        <div class="mx-2">
+      <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded sm:ml-2 mt-2 sm:mt-0">
+        <span class="font-bold tracking-wide">Height</span>
+        <div class="mx-2 relative" style="bottom:0.1rem">
           <input type="range" min="10" max="100" step="10" v-model="height"  @change="resetCells()" />
         </div>
         <span>{{ height }}</span>
+        <span
+          @click="resetHeight()"
+          class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
+          style="bottom:0.2rem"
+        >&#8634;</span>
       </div>
     </div>
   </div>
@@ -202,6 +216,9 @@ export default {
         }
       }
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
+      if (this.cellsAlive === 0) {
+        this.stopCycle()
+      }
     },
 
     getAliveNeighbours (x, y) {
@@ -229,11 +246,69 @@ export default {
     toggleSingleCell ([x, y]) {
       this.boardStatus[x][y] = !this.boardStatus[x][y]
       this.cellsAlive = this.boardStatus[x][y] ? this.cellsAlive + 1 : this.cellsAlive - 1
+    },
+
+    resetWidth () {
+      if (this.width === 20) return
+      this.width = 20
+      this.resetCells()
+    },
+
+    resetHeight () {
+      if (this.height === 20) return
+      this.height = 20
+      this.resetCells()
     }
   }
 }
 </script>
 
 <style scoped>
+
+  input[type=range] {
+    -webkit-appearance: none;
+    margin: 2.75px 0;
+    @apply bg-grey-dark;
+  }
+
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 5px;
+    @apply bg-white rounded cursor-pointer w-full;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+    border: 0px solid #ff1e00;
+    height: 12px;
+    width: 12px;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin-top: -3px;
+    @apply bg-red-light cursor-pointer;
+  }
+
+  input[type=range]:hover::-webkit-slider-thumb {
+    @apply bg-red-lighter;
+  }
+
+  input[type=range]::-moz-range-track {
+    height: 5px;
+    @apply bg-white rounded cursor-pointer w-full;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+    border: 0px solid #ff1e00;
+    height: 12px;
+    width: 12px;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin-top: -3px;
+    @apply bg-red-light cursor-pointer;
+  }
 
 </style>
