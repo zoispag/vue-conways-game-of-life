@@ -23,9 +23,10 @@
       </div>
     </div>
     <div class="flex justfy-between flex-col sm:flex-row">
+      <InfoModal></InfoModal>
       <button
         type="button"
-        class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 sm:ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
         @click="nextConwayCycle()"
       >Next cycle</button>
       <button
@@ -48,7 +49,6 @@
         class="mt-2 sm:ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
         @click="clearBoard()"
       >Clear board</button>
-      <InfoModal></InfoModal>
     </div>
 
     <div class="text-xs flex flex-col sm:flex-row w-full mt-2 sm:mt-3">
