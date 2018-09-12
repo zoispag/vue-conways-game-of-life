@@ -10,7 +10,7 @@
       <div v-for="(row, x) in boardStatus" :key="x">
         <div v-for="(column, y) in row" :key="y">
           <SingleCell
-            :key="`${x}:${y}}`"
+            :key="`${x}:${y}`"
             :x="x" :y="y"
             :isCellAlive="alive(x, y)"
             @handleClick="toggleSingleCell($event)"
@@ -158,7 +158,7 @@ export default {
             result = 0
           }
           // Rule #2: Any live cell with two or three live neighbors lives on to the next generation.
-          if ((isAlive && aliveNeighbours === 2) || aliveNeighbours === 3) {
+          if (isAlive && (aliveNeighbours === 2 || aliveNeighbours === 3)) {
             result = 1
           }
           // Rule #3: Any live cell with more than three live neighbors dies, as if by overpopulation.
