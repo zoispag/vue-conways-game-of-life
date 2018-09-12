@@ -18,31 +18,50 @@
         </div>
       </div>
     </div>
-    <button
-      type="button"
-      class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
-      @click="nextConwayCycle()"
-    >Next cycle</button>
-    <button
-      type="button"
-      class="mt-2 ml-2 bg-green hover:bg-green-dark text-white py-2 px-4 text-sm rounded"
-      @click="toggleRun()"
-    >{{ btnText }}</button>
-    <button
-      type="button"
-      class="mt-2 ml-2 bg-grey hover:bg-grey-dark text-white py-2 px-4 text-sm rounded"
-      @click="toggleSpeed()"
-    >{{ speeds[speedId].display }}</button>
-    <button
-      type="button"
-      class="mt-2 ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
-      @click="resetCells()"
-    >Reset board</button>
-    <button
-      type="button"
-      class="mt-2 ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
-      @click="clearBoard()"
-    >Clear board</button>
+    <div>
+      <button
+        type="button"
+        class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
+        @click="nextConwayCycle()"
+      >Next cycle</button>
+      <button
+        type="button"
+        class="mt-2 ml-2 bg-green hover:bg-green-dark text-white py-2 px-4 text-sm rounded"
+        @click="toggleRun()"
+      >{{ btnText }}</button>
+      <button
+        type="button"
+        class="mt-2 ml-2 bg-grey hover:bg-grey-dark text-white py-2 px-4 text-sm rounded"
+        @click="toggleSpeed()"
+      >{{ speeds[speedId].display }}</button>
+      <button
+        type="button"
+        class="mt-2 ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
+        @click="resetCells()"
+      >Reset board</button>
+      <button
+        type="button"
+        class="mt-2 ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
+        @click="clearBoard()"
+      >Clear board</button>
+    </div>
+
+    <div class="text-xs flex mt-1">
+      <div class="flex">
+        <span>Width</span>
+        <div class="mx-2">
+          <input type="range" min="10" max="100" step="10" v-model="width" @change="resetCells()" />
+        </div>
+        <span>{{ width }}</span>
+      </div>
+      <div class="flex ml-8">
+        <span>Height</span>
+        <div class="mx-2">
+          <input type="range" min="10" max="100" step="10" v-model="height"  @change="resetCells()" />
+        </div>
+        <span>{{ height }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,8 +77,8 @@ export default {
 
   data () {
     return {
-      width: 80,
-      height: 30,
+      width: 20,
+      height: 20,
       cycles: 0,
       cellsAlive: 0,
       boardStatus: [],
@@ -97,6 +116,7 @@ export default {
     },
 
     resetCells () {
+      this.boardStatus = []
       for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []
         for (var y = 0; y < this.height; y++) {
@@ -108,6 +128,7 @@ export default {
     },
 
     clearBoard () {
+      this.boardStatus = []
       for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []
         for (var y = 0; y < this.height; y++) {
