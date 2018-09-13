@@ -65,6 +65,20 @@
       </div>
     </div>
 
+    <div>
+      <button
+        v-show="false"
+        type="button"
+        class="mt-2 bg-grey-dark hover:bg-grey-darker text-white py-2 px-4 text-sm rounded"
+        @click="exportBoard()"
+      >Export</button>
+      <div>
+        <div contenteditable v-show="exportBase64.length" v-text="exportBase64"
+          class="mt-1 p-1 text-xs w-2/3 border boder-black bolder-solid bg-white whitespace-normal"
+          style="word-wrap: break-word;"></div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -90,6 +104,7 @@ export default {
       cellsAlive: 0,
       boardStatus: [],
       originalBoardStatus: [],
+      exportBase64: '',
       v: [],
       interval: undefined,
       speedId: 0,
@@ -106,7 +121,13 @@ export default {
   },
 
   created () {
-    this.resetCells()
+    let { pathname } = new URL(window.location.href);
+    pathname = pathname.substring(1)
+    if (pathname.length > 0) {
+      this.import(pathname)
+    } else {
+      this.resetCells()
+    }
   },
 
   computed: {
@@ -265,7 +286,32 @@ export default {
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
       this.cycles = 0
       this.originalBoardStatus = []
-    }
+    },
+
+    import (str) {
+      const import_str = JSON.parse(atob(str))
+      let checked = 0
+      if (import_str.length % 10 === 0) {
+        for (let i = 0; i < import_str.length; i++) {
+          if (import_str[i].length % 10 === 0) {
+            checked++
+          }
+        }
+      } else {
+        return
+      }
+
+      if (checked === import_str.length) {
+        this.boardStatus = import_str
+        this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
+        this.cycles = 0
+      }
+    },
+
+    exportBoard () {
+      this.exportBase64 = btoa(JSON.stringify(this.boardStatus))
+      console.log(btoa(JSON.stringify(this.boardStatus)))
+    },
   }
 }
 </script>
