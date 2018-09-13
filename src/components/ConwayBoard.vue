@@ -67,9 +67,8 @@
 
     <div>
       <button
-        v-show="false"
         type="button"
-        class="mt-2 bg-grey-dark hover:bg-grey-darker text-white py-2 px-4 text-sm rounded"
+        class="mt-2 border-black border-2 bg-white text-black hover:bg-black hover:text-white py-2 px-4 text-sm rounded"
         @click="exportBoard()"
       >Export</button>
       <div>
@@ -313,8 +312,9 @@ export default {
     },
 
     exportBoard () {
-      this.exportBase64 = btoa(JSON.stringify(this.boardStatus))
-      console.log(btoa(JSON.stringify(this.boardStatus)))
+      let encoded = btoa(JSON.stringify(this.boardStatus))
+      let { origin } = new URL(window.location.href)
+      this.exportBase64 = `${origin}/?b=${encoded}`
     }
   }
 }
