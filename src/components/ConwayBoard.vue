@@ -137,7 +137,6 @@ export default {
 
     nextConwayCycle () {
       if (this.cycles === 0) {
-        console.log('called')
         this.storeOriginalBoardStatus()
       }
       this.cycles++
@@ -180,7 +179,6 @@ export default {
       if (this.cellsAlive === 0) {
         this.stopCycle()
       }
-      console.log(this.boardStatus === this.originalBoardStatus)
     },
 
     getAliveNeighbours (x, y) {
