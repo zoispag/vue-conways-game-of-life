@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="flex justfy-between flex-col sm:flex-row mb-1">
-      <div>
-        <span class="mr-3 font-bold">Conway's Game of Life</span>
+      <div class="flex mr-3">
+        <span class="font-bold mr-1">Conway's Game of Life</span>
+        <InfoModal></InfoModal>
       </div>
       <div class="flex">
         <span class="mr-3 text-grey-dark text-sm">Ticks: {{ ticks }}</span>
@@ -14,8 +15,14 @@
 </template>
 
 <script>
+import InfoModal from '@/components/InfoModal.vue'
+
 export default {
   name: 'Stats',
+
+  components: {
+    InfoModal
+  },
 
   props: ['ticks', 'cellsCount', 'cellsAlive']
 }

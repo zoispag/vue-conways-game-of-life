@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="flex justfy-between flex-col sm:flex-row">
-      <InfoModal></InfoModal>
       <button
         type="button"
         class="mt-2 sm:ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
@@ -66,14 +65,8 @@
 </template>
 
 <script>
-import InfoModal from '@/components/InfoModal.vue'
-
 export default {
   name: 'Controls',
-
-  components: {
-    InfoModal
-  },
 
   props: ['interval', 'speeds', 'speedId', 'width', 'height', 'activeResetButton'],
 
