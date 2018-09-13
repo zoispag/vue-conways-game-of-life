@@ -31,6 +31,40 @@
       :active-reset-button="originalBoardStatus.length"
       @toggleResetToStart="resetToOriginalBoardStatus()"
     ></Controls>
+
+    <div class="text-xs flex flex-col sm:flex-row w-full mt-2 sm:mt-3">
+      <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded">
+        <span class="font-bold tracking-wide">Width</span>
+        <div class="mx-2 relative" style="bottom:0.1rem">
+          <input
+            type="range" min="10" max="100" step="10"
+            v-model="width" @change="resetCells()"
+          />
+        </div>
+        <span>{{ width }}</span>
+        <span
+          @click="resetWidth()"
+          class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
+          style="bottom:0.2rem"
+        >&#8634;</span>
+      </div>
+      <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded sm:ml-2 mt-2 sm:mt-0">
+        <span class="font-bold tracking-wide">Height</span>
+        <div class="mx-2 relative" style="bottom:0.1rem">
+          <input
+            type="range" min="10" max="100" step="10"
+            v-model="height" @change="resetCells()"
+          />
+        </div>
+        <span>{{ height }}</span>
+        <span
+          @click="resetHeight()"
+          class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
+          style="bottom:0.2rem"
+        >&#8634;</span>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -210,16 +244,6 @@ export default {
       this.cellsAlive = this.boardStatus[x][y] ? this.cellsAlive + 1 : this.cellsAlive - 1
     },
 
-    changeWidth (_w) {
-      this.width = _w
-      this.resetCells()
-    },
-
-    changeHeight (_h) {
-      this.height = _h
-      this.resetCells()
-    },
-
     resetWidth () {
       if (this.width === 20) return
       this.width = 20
@@ -247,5 +271,51 @@ export default {
 </script>
 
 <style scoped>
+
+  input[type=range] {
+    -webkit-appearance: none;
+    margin: 2.75px 0;
+    @apply bg-grey-dark;
+  }
+
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 5px;
+    @apply bg-white rounded cursor-pointer w-full;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+    border: 0px solid #ff1e00;
+    height: 12px;
+    width: 12px;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin-top: -3px;
+    @apply bg-red-light cursor-pointer;
+  }
+
+  input[type=range]:hover::-webkit-slider-thumb {
+    @apply bg-red-lighter;
+  }
+
+  input[type=range]::-moz-range-track {
+    height: 5px;
+    @apply bg-white rounded cursor-pointer w-full;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+    border: 0px solid #ff1e00;
+    height: 12px;
+    width: 12px;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin-top: -3px;
+    @apply bg-red-light cursor-pointer;
+  }
 
 </style>
