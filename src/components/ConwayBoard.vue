@@ -26,6 +26,8 @@
       :width="width" :height="height"
       @toggleResetWidth="resetWidth()"
       @toggleResetHeight="resetHeight()"
+      :active-reset-button="originalBoardStatus.length"
+      @toggleResetToStart="resetToOriginalBoardStatus()"
     ></Controls>
   </div>
 </template>
@@ -51,6 +53,8 @@ export default {
       cycles: 0,
       cellsAlive: 0,
       boardStatus: [],
+      originalBoardStatus: [],
+      v: [],
       interval: undefined,
       speedId: 0,
       speeds: [
@@ -90,6 +94,7 @@ export default {
       }
       this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
       this.cycles = 0
+      this.originalBoardStatus = []
     },
 
     clearBoard () {
@@ -102,6 +107,7 @@ export default {
       }
       this.cellsAlive = 0
       this.cycles = 0
+      this.originalBoardStatus = []
     },
 
     toggleRun () {
@@ -130,6 +136,10 @@ export default {
     },
 
     nextConwayCycle () {
+      if (this.cycles === 0) {
+        console.log('called')
+        this.storeOriginalBoardStatus()
+      }
       this.cycles++
       let grid = []
       for (var x = 0; x < this.width; x++) {
@@ -170,6 +180,7 @@ export default {
       if (this.cellsAlive === 0) {
         this.stopCycle()
       }
+      console.log(this.boardStatus === this.originalBoardStatus)
     },
 
     getAliveNeighbours (x, y) {
@@ -209,6 +220,17 @@ export default {
       if (this.height === 20) return
       this.height = 20
       this.resetCells()
+    },
+
+    storeOriginalBoardStatus () {
+      this.originalBoardStatus = JSON.parse(JSON.stringify(this.boardStatus))
+    },
+
+    resetToOriginalBoardStatus () {
+      this.boardStatus = JSON.parse(JSON.stringify(this.originalBoardStatus))
+      this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
+      this.cycles = 0
+      this.originalBoardStatus = []
     }
   }
 }

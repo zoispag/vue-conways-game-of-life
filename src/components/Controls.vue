@@ -27,6 +27,13 @@
         class="mt-2 sm:ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
         @click="$emit('toggleClearBoard')"
       >Clear board</button>
+      <button
+        type="button"
+        class="mt-2 sm:ml-2 bg-indigo hover:bg-indigo-dark text-white py-2 px-4 text-sm rounded"
+        @click="$emit('toggleResetToStart')"
+        :disabled="!activeResetButton"
+        :class="{ 'bg-indigo-lighter hover:bg-indigo-lighter cursor-not-allowed' : !activeResetButton }"
+      >Reset to Start</button>
     </div>
 
     <div class="text-xs flex flex-col sm:flex-row w-full mt-2 sm:mt-3">
@@ -68,14 +75,13 @@ export default {
     InfoModal
   },
 
-  props: ['interval', 'speeds', 'speedId', 'width', 'height'],
+  props: ['interval', 'speeds', 'speedId', 'width', 'height', 'activeResetButton'],
 
   computed: {
     btnText () {
       return this.interval !== undefined ? 'Stop' : 'Start'
     }
-  },
-
+  }
 }
 </script>
 
