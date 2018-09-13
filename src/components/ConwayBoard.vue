@@ -108,13 +108,11 @@ export default {
       interval: undefined,
       speedId: 0,
       speeds: [
-        { display: 'x1', milisecs: 1000 },
-        { display: 'x2', milisecs: 500 },
-        { display: 'x4', milisecs: 250 },
-        { display: 'x8', milisecs: 125 },
-        { display: 'x10', milisecs: 100 },
-        { display: 'x20', milisecs: 50 },
-        { display: 'x200', milisecs: 5 }
+        { display: 'x1', milisecs: 250 },
+        { display: 'x2', milisecs: 125 },
+        { display: 'x4', milisecs: 60 },
+        { display: 'x8', milisecs: 30 },
+        { display: 'x25', milisecs: 5 }
       ]
     }
   },
