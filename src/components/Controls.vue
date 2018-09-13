@@ -3,7 +3,7 @@
     <div class="flex justfy-between flex-col sm:flex-row">
       <button
         type="button"
-        class="mt-2 sm:ml-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
+        class="mt-2 bg-blue hover:bg-blue-dark text-white py-2 px-4 text-sm rounded"
         @click="$emit('toggleNextConwayCycle')"
       >Next tick</button>
       <button
