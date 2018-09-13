@@ -24,6 +24,8 @@
       @toggleResetCells="resetCells()"
       @toggleClearBoard="clearBoard()"
       :width="width" :height="height"
+      @toggleChangeWidth="changeWidth($event)"
+      @toggleChangeHeight="changeHeight($event)"
       @toggleResetWidth="resetWidth()"
       @toggleResetHeight="resetHeight()"
       :active-reset-button="originalBoardStatus.length"
@@ -206,6 +208,16 @@ export default {
     toggleSingleCell ([x, y]) {
       this.boardStatus[x][y] = !this.boardStatus[x][y]
       this.cellsAlive = this.boardStatus[x][y] ? this.cellsAlive + 1 : this.cellsAlive - 1
+    },
+
+    changeWidth (_w) {
+      this.width = _w
+      this.resetCells()
+    },
+
+    changeHeight (_h) {
+      this.height = _h
+      this.resetCells()
     },
 
     resetWidth () {

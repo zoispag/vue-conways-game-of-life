@@ -39,9 +39,9 @@
       <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded">
         <span class="font-bold tracking-wide">Width</span>
         <div class="mx-2 relative" style="bottom:0.1rem">
-          <input type="range" min="10" max="100" step="10" v-model="width" @click="$emit('toggleResetCells')" />
+          <input type="range" min="10" max="100" step="10" @change="$emit('toggleChangeWidth', modelWidth)" v-model="modelWidth" />
         </div>
-        <span>{{ width }}</span>
+        <span>{{ modelWidth }}</span>
         <span
           @click="$emit('toggleResetWidth')"
           class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
@@ -51,9 +51,9 @@
       <div class="flex justify-center bg-grey-dark text-white p-3 pt-4 rounded sm:ml-2 mt-2 sm:mt-0">
         <span class="font-bold tracking-wide">Height</span>
         <div class="mx-2 relative" style="bottom:0.1rem">
-          <input type="range" min="10" max="100" step="10" v-model="height" @click="$emit('toggleResetCells')" />
+          <input type="range" min="10" max="100" step="10" @change="$emit('toggleChangeHeight', modelHeight)" v-model="modelHeight" />
         </div>
-        <span>{{ height }}</span>
+        <span>{{ modelHeight }}</span>
         <span
           @click="$emit('toggleResetHeight')"
           class="ml-2 hover:text-red-dark cursor-pointer text-sm relative"
@@ -69,6 +69,13 @@ export default {
   name: 'Controls',
 
   props: ['interval', 'speeds', 'speedId', 'width', 'height', 'activeResetButton'],
+
+  data () {
+    return {
+      modelWidth: this.width,
+      modelHeight: this.height
+    }
+  },
 
   computed: {
     btnText () {
