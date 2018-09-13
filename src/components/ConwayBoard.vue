@@ -1,15 +1,7 @@
 <template>
   <div>
-    <div class="flex justfy-between flex-col sm:flex-row mb-1">
-      <div>
-        <span class="mr-3 font-bold">Conway's Game of Life</span>
-      </div>
-      <div class="flex">
-        <span class="mr-3 text-grey-dark text-sm">Ticks: {{ cycles }}</span>
-        <span class="mr-3 text-grey-dark text-sm">Cell count: {{ cellsCount }}</span>
-        <span class="mr-3 text-grey-dark text-sm">Cells alive: {{ cellsAlive }}</span>
-      </div>
-    </div>
+    <Stats :ticks="cycles" :cells-count="cellsCount" :cells-alive="cellsAlive"></Stats>
+
     <div id="ConwayBoard" class="flex">
       <div v-for="(row, x) in boardStatus" :key="x">
         <div v-for="(column, y) in row" :key="y">
@@ -22,6 +14,7 @@
         </div>
       </div>
     </div>
+
     <div class="flex justfy-between flex-col sm:flex-row">
       <InfoModal></InfoModal>
       <button
@@ -81,6 +74,7 @@
 </template>
 
 <script>
+import Stats from '@/components/Stats.vue'
 import SingleCell from '@/components/SingleCell.vue'
 import InfoModal from '@/components/InfoModal.vue'
 
@@ -88,6 +82,7 @@ export default {
   name: 'ConwayBoard',
 
   components: {
+    Stats,
     SingleCell,
     InfoModal
   },
