@@ -292,8 +292,12 @@ export default {
       const importStr = JSON.parse(atob(str))
       let checked = 0
       if (importStr.length % 10 === 0) {
+        this.width = importStr.length
         for (let i = 0; i < importStr.length; i++) {
           if (importStr[i].length % 10 === 0) {
+            if (i === 1) {
+              this.height = importStr[i].length
+            }
             checked++
           }
         }
