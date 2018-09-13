@@ -121,10 +121,10 @@ export default {
   },
 
   created () {
-    let { pathname } = new URL(window.location.href)
-    pathname = pathname.substring(1)
-    if (pathname.length > 0) {
-      this.import(pathname)
+    let { search } = new URL(window.location.href)
+    let encodedBoard = search.replace('?b=', '')
+    if (encodedBoard.length > 0) {
+      this.import(encodedBoard)
     } else {
       this.resetCells()
     }
