@@ -121,7 +121,7 @@ export default {
   },
 
   created () {
-    let { pathname } = new URL(window.location.href);
+    let { pathname } = new URL(window.location.href)
     pathname = pathname.substring(1)
     if (pathname.length > 0) {
       this.import(pathname)
@@ -289,11 +289,11 @@ export default {
     },
 
     import (str) {
-      const import_str = JSON.parse(atob(str))
+      const importStr = JSON.parse(atob(str))
       let checked = 0
-      if (import_str.length % 10 === 0) {
-        for (let i = 0; i < import_str.length; i++) {
-          if (import_str[i].length % 10 === 0) {
+      if (importStr.length % 10 === 0) {
+        for (let i = 0; i < importStr.length; i++) {
+          if (importStr[i].length % 10 === 0) {
             checked++
           }
         }
@@ -301,8 +301,8 @@ export default {
         return
       }
 
-      if (checked === import_str.length) {
-        this.boardStatus = import_str
+      if (checked === importStr.length) {
+        this.boardStatus = importStr
         this.cellsAlive = this.boardStatus.reduce((count, row) => count + row.filter(c => c).length, 0)
         this.cycles = 0
       }
@@ -311,7 +311,7 @@ export default {
     exportBoard () {
       this.exportBase64 = btoa(JSON.stringify(this.boardStatus))
       console.log(btoa(JSON.stringify(this.boardStatus)))
-    },
+    }
   }
 }
 </script>
