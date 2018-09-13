@@ -154,6 +154,7 @@ export default {
     },
 
     clearBoard () {
+      this.stopCycle()
       this.boardStatus = []
       for (var x = 0; x < this.width; x++) {
         this.boardStatus[x] = []

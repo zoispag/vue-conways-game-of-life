@@ -20,7 +20,7 @@
         type="button"
         class="mt-2 sm:ml-2 bg-red hover:bg-red-dark text-white py-2 px-4 text-sm rounded"
         @click="$emit('toggleResetCells')"
-      >Reset board</button>
+      >Seed board</button>
       <button
         type="button"
         class="mt-2 sm:ml-2 bg-orange hover:bg-orange-dark text-white py-2 px-4 text-sm rounded"
